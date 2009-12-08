@@ -14,6 +14,8 @@
 
 var vis_text = null;
 var eWaves = null;
+var lineL = null;
+var lineR = null;
 
 
 function InlinePlayer() {
@@ -140,19 +142,24 @@ function InlinePlayer() {
 		//"120 30, 25 150, 290 150"
 		
 		
-		var sNewWaveL = '0 0, ';
+		var sNewWaveL = '';
 		
-		var sNewWaveR = '0,0, ';
+		var sNewWaveR = '';
 		for (var i=0; i<256; i++) {
 			//iOpacity = (this.waveformData.left[i] * 0.5)+ 0.5;
 			//console.log("this.waveformData.left =", this.waveformData.left);
 			sNewWaveL = sNewWaveL+i+' '+Math.round((this.waveformData.left[i]*124)+124)+', ';
-			
-			//sNewWaveR = sNewWaveR+i+','+Math.round((this.waveformData.right[i]*124)+124)+' ,';
+			sNewWaveR = sNewWaveR+i+','+Math.round((this.waveformData.right[i]*124)+124)+' ,';
 			
 		}
-		console.log("sNewWaveL =", sNewWaveL);
-		$('line').set('points', sNewWaveL);
+		//var oOptions = {'stroke-width':'4', 'style':'fill: none;', 'stroke':'purple', 'points':sNewWaveL};
+		//var myLine = new Element('polyline', oOptions);
+		
+		//console.log("sNewWaveL =", sNewWaveL);
+		lineL.set('points', sNewWaveL);
+		lineR.set('points', sNewWaveR);
+		lineL.setStyle('opacity', this.peakData.left);
+		lineR.setStyle('opacity', this.peakData.right);
 		
 		//myLine.inject(eWaves);
 		//console.log("eWaves =", eWaves);
@@ -300,6 +307,8 @@ soundManager.onready(function(oStatus) {
 		vis_text = $('vis_text');
 		//console.log("vis_text =", vis_text);
 		eWaves = $('waves');
+		lineL = $('lineL');
+		lineR = $('lineR');
     }
   }
 });
