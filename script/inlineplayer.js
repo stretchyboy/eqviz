@@ -124,7 +124,38 @@ function InlinePlayer() {
 		},
 	whileplaying:function() {
 		//console.log("this =", this);
-		vis_text.setStyle('opacity', this.peakData.left);
+		//vis_text.setStyle('opacity', this.peakData.left);
+		/*
+		var sNewWaveL = 'L ';
+		var sNewWaveR = 'L ';
+		for (var i=0; i<256; i++) {
+			iOpacity = (this.waveformData.left[i] * 0.5)+ 0.5;
+			vis_text.setStyle('opacity', iOpacity);
+			sNewWaveL = sNewWaveL+i+','+Math.round((this.waveformData.left[i]*124)+124)+' ';
+			sNewWaveR = sNewWaveR+i+','+Math.round((this.waveformData.right[i]*124)+124)+' ';
+			
+		}
+		var myLine = new Element('path', {'d':sNewWaveR,'stroke':'red','stroke-width':2});
+		*/
+		//"120 30, 25 150, 290 150"
+		
+		
+		var sNewWaveL = '0 0, ';
+		
+		var sNewWaveR = '0,0, ';
+		for (var i=0; i<256; i++) {
+			//iOpacity = (this.waveformData.left[i] * 0.5)+ 0.5;
+			//console.log("this.waveformData.left =", this.waveformData.left);
+			sNewWaveL = sNewWaveL+i+' '+Math.round((this.waveformData.left[i]*124)+124)+', ';
+			
+			//sNewWaveR = sNewWaveR+i+','+Math.round((this.waveformData.right[i]*124)+124)+' ,';
+			
+		}
+		console.log("sNewWaveL =", sNewWaveL);
+		$('line').set('points', sNewWaveL);
+		
+		//myLine.inject(eWaves);
+		//console.log("eWaves =", eWaves);
 	}
   };
 
@@ -181,7 +212,7 @@ function InlinePlayer() {
       thisSound = sm.createSound({
        id:'inlineMP3Sound'+(self.soundCount++),
        usePeakData: true,     // [Flash 9 only] whether or not to show peak data (left/right channel values) - nor noticable on CPU
-       //useWaveformData: true, // [Flash 9 only] show raw waveform data - WARNING: LIKELY VERY CPU-HEAVY
+       useWaveformData: true, // [Flash 9 only] show raw waveform data - WARNING: LIKELY VERY CPU-HEAVY
        //useEQData: true,      // [Flash 9 only] show EQ (frequency spectrum) data
        useFavIcon: false,      // try to apply peakData to address bar (Firefox + Opera) - performance note: appears to make Firefox 3 do some temporary, heavy disk access/swapping/garbage collection at first(?)
        useMovieStar: false,     // Flash 9.0r115+ only: Support for a subset of MPEG4 formats.*/
@@ -251,11 +282,11 @@ var inlinePlayer = null;
   soundManager.useConsole = true;
   soundManager.consoleOnly = true;   // if console is being used, do not create/write to #soundmanager-debug
   soundManager.debugMode = true;
-  soundManager.useFastPolling = true;
+  soundManager.useFastPolling = false;
   soundManager.flashVersion=9;       // version of Flash to tell SoundManager to use - either 8 or 9. Flash 9 required for peak / spectrum data.
   //soundManager.usePeakData=true;     // [Flash 9 only] whether or not to show peak data (left/right channel values) - nor noticable on CPU
   //soundManager.useWaveformData= true; // [Flash 9 only] show raw waveform data - WARNING: LIKELY VERY CPU-HEAVY
-  soundManager.useEQData=true;      // [Flash 9 only] show EQ (frequency spectrum) data
+  //soundManager.useEQData=true;      // [Flash 9 only] show EQ (frequency spectrum) data
   soundManager.allowPolling = true;
   soundManager.useHighPerformance = true;
   
